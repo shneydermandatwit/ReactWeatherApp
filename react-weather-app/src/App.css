@@ -1,44 +1,125 @@
 #root {
-  max-width: 1280px;
-  margin: auto;
-  padding: 2rem;
   text-align: center;
-  background-color: aquamarine;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('https://www.abc4.com/wp-content/uploads/sites/4/2023/08/rainbow-sunset-jpg.jpg?w=2560&h=1440&crop=1');
+  background-size: cover; /* Covers the entire background */
+  background-position: center; /* Centers the image within the container */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed; /* Fixes the background image */
+
+}
+
+
+
+
+
+
+
+
+.weekItems {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
+  margin: 20px auto; /* Adjust the margin as needed */
+  padding: 0px;
+}
+
+.weekItem {
+  width: 15%;
+  height: 60%;
+  border: solid 2px rgba(105, 105, 105, 0.159);;
+  overflow: hidden; /* Prevent text overflow */
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
+  background-color: rgba(128, 128, 128, 0.538);
+  backdrop-filter: blur(10px); /* Apply a blur effect to the background */
+  margin: 0px 10px;
+  border-radius: 40px;
+  padding: 10px;
+  color: rgb(224, 224, 224);
+}
+
+
+
+.weekItem img {
+  padding: 0px;
+  margin: 0px;
+}
+
+.weekItem h1{
+  font-size: 35px;
+}
+
+#search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#search input[type="text"] {
+  background-color: rgba(128, 128, 128, 0.538);
+  color:white;
+
+  padding: 20px;
+  border: 1px solid rgba(80, 80, 80, 0.538);;
+  border-radius: 20px;
+  margin-right: 5px;
+  width: 200px;
+  outline: none;
+}
+
+#search button {
+  padding: 18px;
+  background-color: rgba(128, 128, 128, 0.538);
+  backdrop-filter: blur(10px); /* Apply a blur effect to the background */  
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+#search button:hover {
+  background-color: rgba(98, 98, 98, 0.538);
+}
+
+#current{
+  
+    width: 94%;
+    height: 35%;
+    border: solid 2px rgba(105, 105, 105, 0.159);;
+    overflow: hidden; /* Prevent text overflow */
+    white-space: nowrap; /* Prevent text wrapping */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
+    background-color: rgba(128, 128, 128, 0.538);
+    backdrop-filter: blur(10px); /* Apply a blur effect to the background */
+    margin: auto;
+    border-radius: 40px;
+    color: rgb(224, 224, 224);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
   
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+#left,
+#right,
+#center {
+  width: 30%; /* Adjust the width as needed */
+  margin: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2{
+  margin: 0px;
+  font-size: 40px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+h4{
+  padding: 0px;
+  font-size: 19px;
 }

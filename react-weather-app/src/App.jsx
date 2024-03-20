@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-
+import WeekItems from "./components/WeekItems.jsx";
+import CurrentWeather from "./components/CurrentWeather.jsx";
 function App() {
   const [search, setSearch] = useState("boston"); // holds search term (city)
   const [hasOutput, setHasOutput] = useState(false); // wether or not to display results
@@ -12,6 +13,8 @@ function App() {
 
   const [weekHighLow, setWeekHighLow] = useState([]); //high and low temp of each day from 5 day separated weather response
   const [weekDescriptions, setWeekDescriptions] = useState([]); //most common description from each 5 day separated response
+
+  const [combinedData,setCombinedData] = useState({});
 
   const handleInputChange = (event) => {
     setSearch(event.target.value);
@@ -36,8 +39,19 @@ function App() {
     const currentWeatherData = await currentWeatherResponse.json();
     setCurrentWeather({
       description: currentWeatherData.weather[0].description,
-      temp: currentWeatherData.main.temp,
+      temp: kelvinToCelcius(currentWeatherData.main.temp) ,
       time: unixTimeConverter(currentWeatherData.dt),
+      lat: currentWeatherData.coord.lat,
+      lon: currentWeatherData.coord.lon,
+      feelsLike: kelvinToCelcius(currentWeatherData.main.feels_like),
+      min: kelvinToCelcius(currentWeatherData.main.temp_min),
+      max: kelvinToCelcius(currentWeatherData.main.temp_max),
+      humidity: currentWeatherData.main.humidity,
+      windSpeed: currentWeatherData.wind.speed,
+      icon: currentWeatherData.weather[0].icon
+
+
+
     });
   };
 
@@ -45,6 +59,7 @@ function App() {
 
   const handleSearch = async () => {
     await getCoordinates();
+
   };
 
   const unixTimeConverter = (unixTime) => {
@@ -73,6 +88,8 @@ function App() {
     const currentDayOfWeek = `${daysOfWeek[date.getDay()]}`;
     return currentDayOfWeek;
   }
+
+  
 
   const getFiveDay = async () => {
     const fiveDayResponse = await fetch(
@@ -137,37 +154,82 @@ function App() {
   }
 
   function getaveragedescriptions() {
-    // Create an object to store counts of each weather description for each day
-    const descriptionsCount = {};
+    const averagedData = {};
 
-    // Iterate over each day's entries
-    Object.entries(separatedFiveDay).forEach(([dayKey, dayEntries]) => {
-        // Create an object to store counts of each description for the current day
-        const dayDescriptionsCount = {};
+  // Iterate over each day's entries
+  Object.entries(separatedFiveDay).forEach(([dayKey, dayEntries]) => {
+    // Create an object to store counts of each description and icon for the current day
+    const dayDataCount = {
+      descriptions: {}, // Store description counts
+      icons: {}, // Store icon counts
+    };
 
-        // Count occurrences of each description for the current day
-        dayEntries.forEach(entry => {
-            // Check if entry has weather data
-            if (entry.weather?.length > 0) {
-                // Access description from the first weather object
-                const description = entry.weather[0].description;
-                dayDescriptionsCount[description] = (dayDescriptionsCount[description] || 0) + 1;
-            }
-        });
-
-        // Find the most common description for the current day
-        const mostCommonDescription = Object.keys(dayDescriptionsCount).reduce((a, b) => {
-            // Check if dayDescriptionsCount is empty
-            if (!a) return b; // If a is empty, return b
-            return dayDescriptionsCount[a] > dayDescriptionsCount[b] ? a : b;
-        }, null); // Provide initial value as null
-
-        // Store the most common description for the current day
-        descriptionsCount[dayKey] = mostCommonDescription;
+    // Count occurrences of each description and icon for the current day
+    dayEntries.forEach(entry => {
+      // Check if entry has weather data
+      if (entry.weather?.length > 0) {
+        // Access description and icon from the weather object
+        const { description, icon } = entry.weather[0];
+        dayDataCount.descriptions[description] = (dayDataCount.descriptions[description] || 0) + 1;
+        dayDataCount.icons[icon] = (dayDataCount.icons[icon] || 0) + 1;
+      }
     });
 
-    setWeekDescriptions(descriptionsCount);
+    // Find the most common description and icon for the current day
+    const mostCommonDescription = Object.keys(dayDataCount.descriptions).reduce((a, b) =>
+      dayDataCount.descriptions[a] > dayDataCount.descriptions[b] ? a : b, null);
+
+    const mostCommonIcon = Object.keys(dayDataCount.icons).reduce((a, b) =>
+      dayDataCount.icons[a] > dayDataCount.icons[b] ? a : b, null);
+
+    // Store the most common description and icon for the current day
+    averagedData[dayKey] = { description: mostCommonDescription, icon: mostCommonIcon };
+  });
+
+  setWeekDescriptions(averagedData);
 }
+function combineData() {
+  const data = {};
+
+  // Iterate over each day in weekHighLow and combine it with weekDescriptions
+  Object.keys(weekHighLow).forEach((dayKey, index) => {
+    const weekday = Object.keys(weekDescriptions)[index]; // Get the corresponding weekday key
+    if (weekDescriptions.hasOwnProperty(weekday)) {
+      data[weekday] = {
+        dayName: weekday, // Add dayName field with the name of the day
+        highTemp: weekHighLow[dayKey].high,
+        lowTemp: weekHighLow[dayKey].low,
+        description: weekDescriptions[weekday].description,
+        icon: weekDescriptions[weekday].icon
+      };
+    }
+  });
+
+ 
+
+  return data;
+}
+
+
+useEffect(() => {
+  console.log("currentWeather:", currentWeather);
+}, [currentWeather]);
+
+useEffect(() => {
+  if (Object.keys(weekDescriptions).length > 0 && Object.keys(weekHighLow).length > 0) {
+    const combinedData = combineData();
+    //console.log("combinedData:", combinedData); // Log combined data directly
+    setCombinedData(combinedData); // Update the state with the combined data
+  }
+}, [weekDescriptions, weekHighLow]);
+
+
+
+useEffect(() => {
+  console.log("combinedData:", combinedData);
+}, [combinedData]);
+
+
 
 
 useEffect(() => {
@@ -188,7 +250,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (fiveDay.length > 0) {
-      console.log("fiveDay", fiveDay)
+      //console.log("fiveDay", fiveDay)
       createDailyData();
     }
   }, [fiveDay]);
@@ -196,7 +258,7 @@ useEffect(() => {
   useEffect(() => {
     if (Object.keys(separatedFiveDay).length > 0) {
       fullHighLows();
-      console.log("separatedfiveday", separatedFiveDay);
+      //console.log("separatedfiveday", separatedFiveDay);
       getaveragedescriptions();
     }
   }, [separatedFiveDay]);
@@ -207,26 +269,26 @@ useEffect(() => {
       getFiveDay();
       setHasOutput(true);
     }
-  }, [coordinates]); // Only re-run the effect if coordinates change
+  }, [coordinates]); // Include search in the dependency array
+  
 
   return (
     <>
-      <input type="text" value={search} onChange={handleInputChange} />
-      <button onClick={handleSearch}>Search</button>
-      {hasOutput && ( //if has output is true
-        <div>
-          <p>Latitude: {coordinates.lat}</p>
-          <p>Longitude: {coordinates.lon}</p>
-          <p>Description: {currentWeather.description}</p>
-          <p>Temp: {currentWeather.temp}</p>
-          <p>Time: {currentWeather.time}</p>
-          <ol>
-            {fiveDay.map((forecast, index) => (
-              <li key={index}>{weekDayString(forecast.dt)} = {kelvinToCelcius(forecast.main.temp)}</li>
-            ))}
-          </ol>
 
-        </div>
+    <div id="search">
+    <input type="text" value={search} onChange={handleInputChange} />
+      <button onClick={handleSearch}>Search</button>
+
+    </div>
+      
+
+
+      {hasOutput && ( //if has output is true
+      <>
+
+          <WeekItems data={combinedData}/>
+          <CurrentWeather data={currentWeather}/>
+          </>
       )}
     </>
   );
