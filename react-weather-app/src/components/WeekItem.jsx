@@ -10,6 +10,8 @@ const WeekItem = ({ data }) => {
   }, [data]);
 
   const capitalizeFirstLetter = (str) => {
+    if(!str){return};
+
     return str.replace(/\b\w/g, (match) => match.toUpperCase());
   };
   useEffect(() => {

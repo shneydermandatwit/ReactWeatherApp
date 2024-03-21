@@ -7,6 +7,7 @@ const CurrentWeather = ({data}) => {
     const [url, setUrl] = useState();
 
     const capitalizeFirstLetter = (str) => {
+      if(!str){return};
       return str.replace(/\b\w/g, (match) => match.toUpperCase());
     };
 
