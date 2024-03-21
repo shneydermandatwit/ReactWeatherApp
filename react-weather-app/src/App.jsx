@@ -3,7 +3,7 @@ import "./App.css";
 import WeekItems from "./components/WeekItems.jsx";
 import CurrentWeather from "./components/CurrentWeather.jsx";
 function App() {
-  const [search, setSearch] = useState("boston"); // holds search term (city)
+  const [search, setSearch] = useState(""); // holds search term (city)
   const [hasOutput, setHasOutput] = useState(false); // wether or not to display results
   const [key, setKey] = useState("c0356c567ab296fc6d78f6c30c3adba3"); //Weather API key
   const [coordinates, setCoordinates] = useState({}); // coordinates for given city
@@ -93,7 +93,7 @@ function App() {
 
   const getFiveDay = async () => {
     const fiveDayResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=42.3554334&lon=-71.060511&appid=${key}`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${key}`
     );
     const fiveDayData = await fiveDayResponse.json();
     setFiveDay(fiveDayData.list);
