@@ -97,7 +97,6 @@ function App() {
     );
     const fiveDayData = await fiveDayResponse.json();
     setFiveDay(fiveDayData.list);
-
   }
 
   const kelvinToCelcius = (kelvin) => {
