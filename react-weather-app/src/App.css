@@ -3,53 +3,44 @@
   height: 100vh;
   width: 100vw;
   background-image: url('https://www.abc4.com/wp-content/uploads/sites/4/2023/08/rainbow-sunset-jpg.jpg?w=2560&h=1440&crop=1');
-  background-size: cover; /* Covers the entire background */
-  background-position: center; /* Centers the image within the container */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
-  background-attachment: fixed; /* Fixes the background image */
-
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-
-
-
-
-
-
-
 
 .weekItems {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 95%;
-  margin: 20px auto; /* Adjust the margin as needed */
-  padding: 0px;
+  margin: 20px auto;
+  padding: 0;
 }
 
 .weekItem {
   width: 15%;
-  height: 60%;
+  height: 50vh;
   border: solid 2px rgba(105, 105, 105, 0.159);;
-  overflow: hidden; /* Prevent text overflow */
-  white-space: nowrap; /* Prevent text wrapping */
-  text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   background-color: rgba(128, 128, 128, 0.538);
-  backdrop-filter: blur(10px); /* Apply a blur effect to the background */
-  margin: 0px 10px;
+  backdrop-filter: blur(10px);
+  margin: 0 10px;
   border-radius: 40px;
   padding: 10px;
   color: rgb(224, 224, 224);
 }
 
-
-
 .weekItem img {
-  padding: 0px;
-  margin: 0px;
+  padding: -10px;
+  margin: -10px;
 }
 
-.weekItem h1{
-  font-size: 35px;
+.weekItem h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0px;
 }
 
 #search {
@@ -61,10 +52,9 @@
 
 #search input[type="text"] {
   background-color: rgba(128, 128, 128, 0.538);
-  color:white;
-
-  padding: 20px;
-  border: 1px solid rgba(80, 80, 80, 0.538);;
+  color: white;
+  padding: 10px;
+  border: 1px solid rgba(80, 80, 80, 0.538);
   border-radius: 20px;
   margin-right: 5px;
   width: 200px;
@@ -72,9 +62,9 @@
 }
 
 #search button {
-  padding: 18px;
+  padding: 10px;
   background-color: rgba(128, 128, 128, 0.538);
-  backdrop-filter: blur(10px); /* Apply a blur effect to the background */  
+  backdrop-filter: blur(10px);
   border: none;
   border-radius: 20px;
   color: #fff;
@@ -86,40 +76,41 @@
   background-color: rgba(98, 98, 98, 0.538);
 }
 
-#current{
-  
-    width: 94%;
-    height: 35%;
-    border: solid 2px rgba(105, 105, 105, 0.159);;
-    overflow: hidden; /* Prevent text overflow */
-    white-space: nowrap; /* Prevent text wrapping */
-    text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
-    background-color: rgba(128, 128, 128, 0.538);
-    backdrop-filter: blur(10px); /* Apply a blur effect to the background */
-    margin: auto;
-    border-radius: 40px;
-    color: rgb(224, 224, 224);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: flex-start;
-  
+#current {
+  width: 94%;
+  height: 30vh;
+  border: solid 2px rgba(105, 105, 105, 0.159);;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: rgba(128, 128, 128, 0.538);
+  backdrop-filter: blur(10px);
+  margin: 20px auto;
+  border-radius: 40px;
+  color: rgb(224, 224, 224);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
 }
-
 
 #left,
 #right,
 #center {
-  width: 30%; /* Adjust the width as needed */
+  width: 30%;
   margin: 10px;
 }
 
-h2{
-  margin: 0px;
-  font-size: 40px;
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
-h4{
-  padding: 0px;
-  font-size: 19px;
+h4 {
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+img{
+  margin: -30px;
 }
