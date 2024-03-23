@@ -23,7 +23,7 @@ function App() {
 
   const getCoordinates = async () => {
     const geocodeResponse = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${key}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${key}`
     );
     const coordinateData = await geocodeResponse.json();
     setCoordinates({
